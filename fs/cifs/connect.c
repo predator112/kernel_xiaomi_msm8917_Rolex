@@ -2972,8 +2972,7 @@ ip_rfc1001_connect(struct TCP_Server_Info *server)
 	if (ses_init_buf) {
 		ses_init_buf->trailer.session_req.called_len = 32;
 
-		if (server->server_RFC1001_name &&
-		    server->server_RFC1001_name[0] != 0)
+		if (server->server_RFC1001_name[0] != 0)
 			rfc1002mangle(ses_init_buf->trailer.
 				      session_req.called_name,
 				      server->server_RFC1001_name,
@@ -2990,8 +2989,7 @@ ip_rfc1001_connect(struct TCP_Server_Info *server)
 		 * calling name ends in null (byte 16) from old smb
 		 * convention.
 		 */
-		if (server->workstation_RFC1001_name &&
-		    server->workstation_RFC1001_name[0] != 0)
+		if (server->workstation_RFC1001_name[0] != 0)
 			rfc1002mangle(ses_init_buf->trailer.
 				      session_req.calling_name,
 				      server->workstation_RFC1001_name,
@@ -4046,6 +4044,7 @@ cifs_construct_tcon(struct cifs_sb_info *cifs_sb, kuid_t fsuid)
 	vol_info->no_linux_ext = !master_tcon->unix_ext;
 	vol_info->sectype = master_tcon->ses->sectype;
 	vol_info->sign = master_tcon->ses->sign;
+	vol_info->seal = master_tcon->seal;
 
 	rc = cifs_set_vol_auth(vol_info, master_tcon->ses);
 	if (rc) {
